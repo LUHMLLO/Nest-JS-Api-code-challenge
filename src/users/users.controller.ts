@@ -1,26 +1,33 @@
-import { Controller, Delete, Get, Post, Put } from '@nestjs/common';
+import { Controller, Delete, Get, Post, Put, Body, Param } from '@nestjs/common';
+import { UsersEntity } from "./entities/users.entity"
+import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
+    constructor(private usersService: UsersService) { }
+
     @Get()
-    readTable(): string {
-        return "all users will be rendered as a json list here";
+    readTable() {
+        return this.usersService.readTable();
     }
 
     @Post()
-    insertUser(): string {
-        return "insert user"
+    create(@Body() body: UsersEntity) {
+        return this.usersService.create(body)
     }
-    @Get()
-    readtUser(): string {
-        return "insert user"
+
+    @Get(':id')
+    read(@Param('id') id: number) {
+        return this.usersService.read(id);
     }
-    @Put()
-    updateUser(): string {
-        return "insert user"
-    }
-    @Delete()
-    deleteUser(): string {
-        return "insert user"
+
+    // @Put(':id')
+    // update(@Param('id') id: number, @Body() body: UsersEntity) {
+    //     return this.usersService.update(id, body)
+    // }
+
+    @Delete(':id')
+    delete(@Param('id') id: number) {
+        return this.usersService.delete(id);
     }
 }
