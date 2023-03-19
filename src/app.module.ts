@@ -1,19 +1,20 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersController } from './users/users.controller';
-import { UsersService } from './users/users.service';
-import { UsersModule } from './users/users.module';
+import { ClientsController } from './clients/clients.controller';
+import { ClientsService } from './clients/clients.service';
+import { ClientsModule } from './clients/clients.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfig } from './config/typeorm.config';
+import { LoansController } from './loans/loans.controller';
 
 @Module({
   imports: [
-    UsersModule,
     TypeOrmModule.forRoot(TypeOrmConfig),
+    ClientsModule
   ],
-  controllers: [AppController, UsersController],
-  providers: [AppService, UsersService],
+  controllers: [AppController, ClientsController, LoansController],
+  providers: [AppService, ClientsService],
 })
 
 export class AppModule { }

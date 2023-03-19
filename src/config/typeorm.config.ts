@@ -8,8 +8,8 @@ export const TypeOrmConfig: TypeOrmModuleOptions = {
     password: 'tS6k@8C2',
     database: 'realbank',
     entities: ['dist/**/*.entity{.ts,.js}'],
-    synchronize: true,
-    logging: true,
+    synchronize: false,
+    logging: false,
     retryDelay: 3000,
     retryAttempts: 10,
     autoLoadEntities: true
