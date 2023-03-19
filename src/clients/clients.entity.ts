@@ -1,30 +1,40 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { LoansEntity } from "src/loans/loans.entity";
 
 @Entity('clientes')
 export class ClientsEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ length: 16 })
-    username: string;
-
-    @Column({ length: 250 })
-    password: string;
-
-    @Column({ length: 250 })
+    @Column()
     avatar: string;
 
-    @Column({ length: 32 })
-    name: string;
+    @Column()
+    username: string;
+
+    @Column()
+    password: string;
+
+    @Column()
+    identification: string;
+
+    @Column()
+    first_name: string;
+
+    @Column()
+    last_name: string;
 
     @Column()
     email: string;
 
-    @Column({ length: 14 })
+    @Column()
     phone: string;
 
-    @Column({ length: 8 })
+    @Column()
     role: string;
+
+    @OneToMany(() => LoansEntity, loan => loan.client)
+    loans: LoansEntity[];
 
     @Column()
     created: Date;

@@ -25,6 +25,13 @@ export class ClientsService {
         return this.clientsRepo.findOneBy({ id })
     }
 
+    async getLoans(id: number): Promise<ClientsEntity | null> {
+        return this.clientsRepo.findOne({
+            where: { id: id },
+            relations: ['loans'],
+        })
+    }
+
     async update(id: number, entity: ClientsEntity): Promise<ClientsEntity | null> {
         entity["modified"] = new Date()
         await this.clientsRepo.update(id, entity)

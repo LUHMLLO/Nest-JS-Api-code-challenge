@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Post, Put, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
 import { ClientsService } from './clients.service';
 import { ClientsEntity } from "./clients.entity"
 
@@ -7,7 +7,7 @@ export class ClientsController {
     constructor(private clientService: ClientsService) { }
 
     @Get('list')
-    readTable(): Promise<ClientsEntity[]> {
+    list(): Promise<ClientsEntity[]> {
         return this.clientService.readTable();
     }
 
@@ -19,6 +19,11 @@ export class ClientsController {
     @Get('read/:id')
     read(@Param('id') id: number) {
         return this.clientService.read(id);
+    }
+
+    @Get('loans/:id')
+    getLoans(@Param('id') id: number) {
+        return this.clientService.getLoans(id);
     }
 
     @Put('update/:id')
