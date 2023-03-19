@@ -5,12 +5,12 @@ import { ClientsController } from './clients/clients.controller';
 import { ClientsService } from './clients/clients.service';
 import { ClientsModule } from './clients/clients.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TypeOrmConfig } from './config/typeorm.config';
+import { OrmConfig } from './typeorm.config';
 import { LoansController } from './loans/loans.controller';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot(TypeOrmConfig),
+    TypeOrmModule.forRoot(OrmConfig),
     ClientsModule
   ],
   controllers: [AppController, ClientsController, LoansController],
