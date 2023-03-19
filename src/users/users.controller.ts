@@ -1,19 +1,19 @@
 import { Controller, Delete, Get, Post, Put, Body, Param } from '@nestjs/common';
-import { UsersEntity } from "./entities/users.entity"
 import { UsersService } from './users.service';
+import { UsersEntity } from "./users.entity"
 
 @Controller('users')
 export class UsersController {
     constructor(private usersService: UsersService) { }
 
     @Get()
-    readTable() {
+    readTable(): Promise<UsersEntity[]> {
         return this.usersService.readTable();
     }
 
     @Post()
-    create(@Body() body: UsersEntity) {
-        return this.usersService.create(body)
+    create(@Body() entity: UsersEntity): Promise<UsersEntity> {
+        return this.usersService.create(entity)
     }
 
     @Get(':id')
@@ -21,13 +21,13 @@ export class UsersController {
         return this.usersService.read(id);
     }
 
-    // @Put(':id')
-    // update(@Param('id') id: number, @Body() body: UsersEntity) {
-    //     return this.usersService.update(id, body)
-    // }
+    @Put(':id')
+    update(@Param('id') id: number, @Body() entity: UsersEntity): Promise<UsersEntity | null> {
+        return this.usersService.update(id, entity)
+    }
 
     @Delete(':id')
-    delete(@Param('id') id: number) {
+    delete(@Param('id') id: number): Promise<void> {
         return this.usersService.delete(id);
     }
 }

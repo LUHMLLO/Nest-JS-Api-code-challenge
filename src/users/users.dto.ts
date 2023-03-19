@@ -1,4 +1,4 @@
-import { User } from "../interfaces/users.interface"
+import { User } from "./users.interface"
 
 export class CreateUserRequest {
     readonly username: User["username"];

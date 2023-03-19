@@ -1,34 +1,35 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UsersEntity } from './entities/users.entity'
+import { UsersEntity } from './users.entity'
 
 @Injectable()
 export class UsersService {
     constructor(
         @InjectRepository(UsersEntity)
-        private usersRepo: Repository<UsersEntity>,
+        private readonly usersRepo: Repository<UsersEntity>,
     ) { }
 
-    readTable() {
+    async readTable(): Promise<UsersEntity[]> {
         return this.usersRepo.find()
     }
 
-    create(body: any) {
-        const newUser = this.usersRepo.create(body)
-        return this.usersRepo.save(newUser)
+    async create(entity: UsersEntity): Promise<UsersEntity> {
+        entity["created"] = new Date()
+        entity["modified"] = new Date(0)
+        entity["accessed"] = new Date(0)
+        return this.usersRepo.save(entity)
     }
 
-    read(id: number) {
-        return this.usersRepo.findOneBy({ id: id })
+    async read(id: number): Promise<UsersEntity | null> {
+        return this.usersRepo.findOneBy({ id })
     }
 
-    // async update(id: number, body: any) {
-    //     let user = this.usersRepo.findOneBy({ id: id })
-    //     let obtainedUser: UsersEntity = await user
-    //     this.usersRepo.merge(obtainedUser, body)
-    //     return this.usersRepo.save(obtainedUser)
-    // }
+    async update(id: number, entity: UsersEntity): Promise<UsersEntity | null> {
+        entity["modified"] = new Date()
+        await this.usersRepo.update(id, entity)
+        return this.usersRepo.findOneBy({ id })
+    }
 
     async delete(id: number): Promise<void> {
         await this.usersRepo.delete(id);

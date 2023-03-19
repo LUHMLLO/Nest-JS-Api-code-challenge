@@ -5,26 +5,15 @@ import { UsersController } from './users/users.controller';
 import { UsersService } from './users/users.service';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmConfig } from './config/typeorm.config';
 
 @Module({
   imports: [
     UsersModule,
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'bankadmin',
-      password: 'tS6k@8C2',
-      database: 'realbank',
-      entities: ['dist/**/*.entity{.ts,.js}'],
-      synchronize: false,
-      retryDelay: 3000,
-      retryAttempts: 10,
-      autoLoadEntities: false
-    }),
+    TypeOrmModule.forRoot(TypeOrmConfig),
   ],
   controllers: [AppController, UsersController],
   providers: [AppService, UsersService],
 })
 
-export class AppModule {}
+export class AppModule { }
