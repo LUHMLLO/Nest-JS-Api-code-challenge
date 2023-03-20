@@ -17,7 +17,6 @@ export class ClientsService {
     async create(entity: ClientsEntity): Promise<ClientsEntity> {
         entity["created"] = new Date()
         entity["modified"] = new Date(0)
-        entity["accessed"] = new Date(0)
         return this.clientsRepo.save(entity)
     }
 

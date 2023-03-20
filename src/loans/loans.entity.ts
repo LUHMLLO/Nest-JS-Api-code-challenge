@@ -1,13 +1,12 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
-import { ClientsEntity } from '../clients/clients.entity';
+import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('prestamos')
 export class LoansEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(() => ClientsEntity, client => client.loans)
-    client: ClientsEntity;
+    @Column()
+    client: number;
 
     @Column()
     amount_requested: number;
@@ -21,10 +20,10 @@ export class LoansEntity {
     @Column()
     number_of_payments: number;
 
-    @Column()
+    @Column('decimal', { precision: 6, scale: 2 })
     interest_rate: number;
 
-    @Column()
+    @Column('decimal', { precision: 6, scale: 2 })
     monthly_fees: number;
 
     @Column()

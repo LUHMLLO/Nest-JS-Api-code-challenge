@@ -1,28 +1,31 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity('clientes')
-export class ClientsEntity {
+@Entity('usuarios')
+export class UsersEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
-    identification: string;
+    client: number;
 
     @Column()
-    first_name: string;
+    avatar: string;
 
     @Column()
-    last_name: string;
+    username: string;
 
     @Column()
-    email: string;
+    password: string;
 
     @Column()
-    phone: string;
+    role: string;
 
     @Column()
     created: Date;
 
     @Column()
     modified: Date;
+
+    @Column()
+    accessed: Date;
 }
