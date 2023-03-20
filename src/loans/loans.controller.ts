@@ -1,29 +1,29 @@
-import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Patch, Body, Param, } from '@nestjs/common';
 import { LoansService } from './loans.service';
-import { LoansEntity } from "./loans.entity"
+import { LoansEntity } from './loans.entity';
 
 @Controller('prestamo')
 export class LoansController {
     constructor(private loanService: LoansService) { }
 
     @Get('list')
-    list(): Promise<LoansEntity[]> {
-        return this.loanService.readTable();
+    all(): Promise<LoansEntity[]> {
+        return this.loanService.all();
     }
 
-    @Post('request')
-    create(@Body() entity: LoansEntity): Promise<LoansEntity> {
+    @Post('create')
+    create(@Body() entity: any): Promise<LoansEntity> {
         return this.loanService.create(entity)
     }
 
-    @Get('amortization/:id')
+    @Get('read/:id')
     read(@Param('id') id: number) {
-        return this.loanService.readLoan(id);
+        return this.loanService.read(id);
     }
-    
-    @Get('approval/:id')
+
+    @Patch('approve/:id')
     readStatus(@Param('id') id: number) {
-        return this.loanService.readLoanStatus(id);
+        return this.loanService.approve(id);
     }
 
     @Put('update/:id')

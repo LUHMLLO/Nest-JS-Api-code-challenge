@@ -1,12 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { ClientsEntity } from 'src/clients/clients.entity';
 
 @Entity('prestamos')
 export class LoansEntity {
     @PrimaryGeneratedColumn()
     id: number;
-
-    @Column()
-    client: number;
 
     @Column()
     amount_requested: number;
@@ -27,8 +25,15 @@ export class LoansEntity {
     monthly_fees: number;
 
     @Column()
+    status: boolean;
+
+    @Column()
     created: Date;
 
     @Column()
     modified: Date;
+
+    @ManyToOne(() => ClientsEntity, (client) => client.loans)
+    @JoinColumn({ name: 'client_id' })
+    client: ClientsEntity
 }

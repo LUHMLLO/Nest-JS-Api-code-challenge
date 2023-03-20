@@ -1,12 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne } from 'typeorm';
+import { ClientsEntity } from 'src/clients/clients.entity';
 
 @Entity('usuarios')
 export class UsersEntity {
     @PrimaryGeneratedColumn()
     id: number;
-
-    @Column()
-    client: number;
 
     @Column()
     avatar: string;
@@ -28,4 +26,7 @@ export class UsersEntity {
 
     @Column()
     accessed: Date;
+
+    @OneToOne(() => ClientsEntity, (client) => client.user)
+    client: ClientsEntity
 }

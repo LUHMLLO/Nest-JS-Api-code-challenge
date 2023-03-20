@@ -1,4 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, OneToMany } from 'typeorm';
+import { UsersEntity } from 'src/users/users.entity';
+import { LoansEntity } from 'src/loans/loans.entity';
 
 @Entity('clientes')
 export class ClientsEntity {
@@ -25,4 +27,11 @@ export class ClientsEntity {
 
     @Column()
     modified: Date;
+
+    @OneToOne(() => UsersEntity)
+    @JoinColumn({ name: 'user_id' })
+    user: UsersEntity;
+
+    @OneToMany(() => LoansEntity, (loan) => loan.client)
+    loans: LoansEntity[];
 }

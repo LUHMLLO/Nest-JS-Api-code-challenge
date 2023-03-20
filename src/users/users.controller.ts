@@ -1,18 +1,18 @@
 import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { UsersEntity } from "./users.entity"
+import { UsersEntity } from './users.entity';
 
 @Controller('usuario')
 export class UsersController {
     constructor(private userService: UsersService) { }
 
     @Get('list')
-    list(): Promise<UsersEntity[]> {
-        return this.userService.readTable();
+    all(): Promise<UsersEntity[]> {
+        return this.userService.all();
     }
 
     @Post('create')
-    create(@Body() entity: UsersEntity): Promise<UsersEntity> {
+    create(@Body() entity: UsersEntity): Promise<UsersEntity | string> {
         return this.userService.create(entity)
     }
 
