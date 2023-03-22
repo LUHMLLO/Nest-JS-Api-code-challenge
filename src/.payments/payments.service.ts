@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { LoansEntity } from './loans.entity'
+import { LoansEntity } from './payments.entity'
 import { ClientsEntity } from 'src/clients/clients.entity';
 import { PaymentFrequencies } from 'src/utils.enums';
 
@@ -22,7 +22,7 @@ export class LoansService {
     async create(dto: any): Promise<LoansEntity | string> {
         const target = await this.clientsRepo.findOne({ where: { id: dto.clientID } })
 
-        if (!target) {
+        if (target == null) {
             return JSON.stringify('client not found')
         }
 
@@ -48,6 +48,7 @@ export class LoansService {
             loan.current_balance = loan.requested_amount
 
             loan.created = new Date()
+            //loan.modified = new Date(0)
 
             return this.loansRepo.save(loan)
         } else {
@@ -58,7 +59,7 @@ export class LoansService {
     async approve(id: number): Promise<LoansEntity | string> {
         const target = await this.loansRepo.findOne({ where: { id: id } })
 
-        if (!target) {
+        if (target == null) {
             return JSON.stringify('loan not found')
         } else {
             target.approval_status = true
@@ -70,39 +71,25 @@ export class LoansService {
         }
     }
 
-    async read(id: number): Promise<LoansEntity | string> {
-        const target = await this.loansRepo.findOne({ where: { id: id } })
-
-        if (!target) {
-            return JSON.stringify('loan not found')
-        }
-
-        return target
+    async read(id: number): Promise<LoansEntity | null> {
+        return this.loansRepo.findOneBy({ id })
     }
 
     async update(id: number, entity: LoansEntity): Promise<LoansEntity | string> {
         const target = await this.loansRepo.findOne({ where: { id: id } })
 
-        if (!target) {
-            return JSON.stringify('loan not found')
+        if (target == null) {
+            return JSON.stringify('client not found')
+        } else {
+            entity.modified = new Date()
+
+            await this.loansRepo.update(id, entity)
+
+            return entity
         }
-
-        entity.modified = new Date()
-
-        await this.loansRepo.update(id, entity)
-
-        return entity
     }
 
-    async delete(id: number): Promise<string> {
-        const target = await this.loansRepo.findOne({ where: { id: id } })
-
-        if (!target) {
-            return JSON.stringify('loan not found')
-        }
-
+    async delete(id: number): Promise<void> {
         await this.loansRepo.delete(id);
-
-        return JSON.stringify(`loan '#${target.id}' deleted`)
     }
 }

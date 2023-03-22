@@ -1,15 +1,15 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
 import { ClientsEntity } from 'src/clients/clients.entity';
 
 @Entity('usuarios')
 export class UsersEntity {
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn({ type: 'bigint' })
     id: number;
 
     @Column()
     avatar: string;
 
-    @Column()
+    @Column({ unique: true })
     username: string;
 
     @Column()
@@ -21,12 +21,13 @@ export class UsersEntity {
     @Column()
     created: Date;
 
-    @Column()
+    @Column({ nullable: true })
     modified: Date;
 
-    @Column()
+    @Column({ nullable: true })
     accessed: Date;
 
     @OneToOne(() => ClientsEntity, (client) => client.user)
+    @JoinColumn({ name: 'client_id' })
     client: ClientsEntity
 }

@@ -15,14 +15,17 @@ export class ClientsService {
             relations: ['user', 'loans']
         })
     }
+
     async allClientsOnly(): Promise<ClientsEntity[]> {
         return this.clientsRepo.find()
     }
-    async allClientsUser(): Promise<ClientsEntity[]> {
+
+    async allClientsUsers(): Promise<ClientsEntity[]> {
         return this.clientsRepo.find({
             relations: ['user']
         })
     }
+
     async allClientsLoans(): Promise<ClientsEntity[]> {
         return this.clientsRepo.find({
             relations: ['loans']
@@ -34,34 +37,56 @@ export class ClientsService {
         const isEmail = await this.clientsRepo.findOne({ where: { email: entity.email } })
         const isPhone = await this.clientsRepo.findOne({ where: { phone: entity.phone } })
 
-        if (isIdentification != null) {
+        if (isIdentification) {
             return JSON.stringify('client already exists')
-        } else if (isEmail != null) {
+        }
+
+        if (isEmail) {
             return JSON.stringify('email already in use')
-        } else if (isPhone != null) {
+        }
+
+        if (isPhone) {
             return JSON.stringify('phone already in use')
         }
-        else {
-            entity.created = new Date()
-            entity.modified = new Date(0)
 
-            return this.clientsRepo.save(entity)
+        entity.created = new Date()
+
+        return this.clientsRepo.save(entity)
+    }
+
+    async read(id: number): Promise<ClientsEntity | string> {
+        const target = await this.clientsRepo.findOne({ where: { id: id } })
+
+        if (!target) {
+            return JSON.stringify('client not found')
         }
+
+        return target
     }
 
-    async read(id: number): Promise<ClientsEntity | null> {
-        return this.clientsRepo.findOneBy({ id })
-    }
+    async update(id: number, entity: ClientsEntity): Promise<ClientsEntity | string> {
+        const target = await this.clientsRepo.findOne({ where: { id: id } })
 
-    async update(id: number, entity: ClientsEntity): Promise<ClientsEntity | null> {
+        if (!target) {
+            return JSON.stringify('client not found')
+        }
+
         entity.modified = new Date()
 
         await this.clientsRepo.update(id, entity)
 
-        return this.clientsRepo.findOneBy({ id })
+        return entity
     }
 
-    async delete(id: number): Promise<void> {
+    async delete(id: number): Promise<string> {
+        const target = await this.clientsRepo.findOne({ where: { id: id } })
+
+        if (!target) {
+            return JSON.stringify('client not found')
+        }
+
         await this.clientsRepo.delete(id);
+
+        return JSON.stringify(`client '${target.first_name} ${target.last_name}' deleted`)
     }
 }

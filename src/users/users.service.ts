@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UsersEntity } from './users.entity'
 import { ClientsEntity } from 'src/clients/clients.entity';
+import { AuthRoles } from 'src/utils.enums';
 
 @Injectable()
 export class UsersService {
@@ -22,13 +23,15 @@ export class UsersService {
         const targetClient = await this.clientsRepo.findOne({ where: { id: dto.clientID } })
         const isUsername = await this.usersRepo.findOne({ where: { username: dto.username } })
 
-        if (targetClient == null) {
-            return JSON.stringify('cannot create an user for a client that does not exist')
+        if (!targetClient) {
+            return JSON.stringify('client not found')
         }
 
-        if (isUsername != null) {
+        if (isUsername) {
             return JSON.stringify('username already in use')
-        } else {
+        }
+
+        if (dto.role in AuthRoles) {
             const user = new UsersEntity()
 
             user.client = targetClient
@@ -37,26 +40,48 @@ export class UsersService {
             user.password = dto.password
             user.role = dto.role
             user.created = new Date()
-            user.modified = new Date(0)
-            user.accessed = new Date(0)
+            //user.modified = new Date(0)
+            //user.accessed = new Date(0)
 
             return this.usersRepo.save(user)
+        } else {
+            return JSON.stringify('invalid auth role')
         }
     }
 
-    async read(id: number): Promise<UsersEntity | null> {
-        return this.usersRepo.findOneBy({ id })
+    async read(id: number): Promise<UsersEntity | string> {
+        const target = await this.usersRepo.findOne({ where: { id: id } })
+
+        if (!target) {
+            return JSON.stringify('client not found')
+        }
+
+        return target
     }
 
-    async update(id: number, entity: UsersEntity): Promise<UsersEntity | null> {
+    async update(id: number, entity: UsersEntity): Promise<UsersEntity | string> {
+        const target = await this.usersRepo.findOne({ where: { id: id } })
+
+        if (!target) {
+            return JSON.stringify('user not found')
+        }
+
         entity.modified = new Date()
 
         await this.usersRepo.update(id, entity)
 
-        return this.usersRepo.findOneBy({ id })
+        return entity
     }
 
-    async delete(id: number): Promise<void> {
+    async delete(id: number): Promise<string> {
+        const target = await this.usersRepo.findOne({ where: { id: id } })
+
+        if (!target) {
+            return JSON.stringify('user not found')
+        }
+
         await this.usersRepo.delete(id);
+
+        return JSON.stringify(`user '${target.username}}' deleted`)
     }
 }

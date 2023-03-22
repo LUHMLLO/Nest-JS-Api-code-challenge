@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Delete, Patch, Body, Param, } from '@nestjs/common';
-import { LoansService } from './loans.service';
-import { LoansEntity } from './loans.entity';
+import { LoansService } from './payments.service';
+import { LoansEntity } from './payments.entity';
 
 @Controller('prestamo')
 export class LoansController {
@@ -12,27 +12,27 @@ export class LoansController {
     }
 
     @Post('create')
-    create(@Body() dto: any): Promise<LoansEntity | string> {
-        return this.loanService.create(dto)
+    create(@Body() entity: any): Promise<LoansEntity | string> {
+        return this.loanService.create(entity)
     }
 
     @Get('read/:id')
-    read(@Param('id') id: number): Promise<LoansEntity | string> {
+    read(@Param('id') id: number) {
         return this.loanService.read(id);
     }
 
     @Patch('approve/:id')
-    readStatus(@Param('id') id: number): Promise<LoansEntity | string> {
+    readStatus(@Param('id') id: number) {
         return this.loanService.approve(id);
     }
 
     @Patch('update/:id')
-    update(@Param('id') id: number, @Body() dto: any): Promise<LoansEntity | string> {
-        return this.loanService.update(id, dto)
+    update(@Param('id') id: number, @Body() entity: LoansEntity): Promise<LoansEntity | string> {
+        return this.loanService.update(id, entity)
     }
 
     @Delete('delete/:id')
-    delete(@Param('id') id: number): Promise<string> {
+    delete(@Param('id') id: number): Promise<void> {
         return this.loanService.delete(id);
     }
 }

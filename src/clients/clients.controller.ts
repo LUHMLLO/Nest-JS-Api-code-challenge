@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Body, Param, Patch } from '@nestjs/common';
 import { ClientsService } from './clients.service';
 import { ClientsEntity } from './clients.entity';
 
@@ -12,37 +12,37 @@ export class ClientsController {
     }
 
     @Get('list-clients')
-    allClients(): Promise<ClientsEntity[]> {
+    allClientsOnly(): Promise<ClientsEntity[]> {
         return this.clientService.allClientsOnly();
     }
 
     @Get('list-users')
-    allUser(): Promise<ClientsEntity[]> {
-        return this.clientService.allClientsUser();
+    allClientsUsers(): Promise<ClientsEntity[]> {
+        return this.clientService.allClientsUsers();
     }
 
     @Get('list-loans')
-    allLoans(): Promise<ClientsEntity[]> {
+    allClientsLoans(): Promise<ClientsEntity[]> {
         return this.clientService.allClientsLoans();
     }
 
     @Post('create')
-    create(@Body() entity: ClientsEntity): Promise<ClientsEntity | string> {
-        return this.clientService.create(entity)
+    create(@Body() dto: any): Promise<ClientsEntity | string> {
+        return this.clientService.create(dto)
     }
 
     @Get('read/:id')
-    read(@Param('id') id: number) {
+    read(@Param('id') id: number): Promise<ClientsEntity | string> {
         return this.clientService.read(id);
     }
 
-    @Put('update/:id')
-    update(@Param('id') id: number, @Body() entity: ClientsEntity): Promise<ClientsEntity | null> {
-        return this.clientService.update(id, entity)
+    @Patch('update/:id')
+    update(@Param('id') id: number, @Body() dto: any): Promise<ClientsEntity | string> {
+        return this.clientService.update(id, dto)
     }
 
     @Delete('delete/:id')
-    delete(@Param('id') id: number): Promise<void> {
+    delete(@Param('id') id: number): Promise<string> {
         return this.clientService.delete(id);
     }
 }

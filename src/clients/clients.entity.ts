@@ -4,10 +4,10 @@ import { LoansEntity } from 'src/loans/loans.entity';
 
 @Entity('clientes')
 export class ClientsEntity {
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn({ type: 'bigint' })
     id: number;
 
-    @Column()
+    @Column({ unique: true })
     identification: string;
 
     @Column()
@@ -16,20 +16,19 @@ export class ClientsEntity {
     @Column()
     last_name: string;
 
-    @Column()
+    @Column({ unique: true })
     email: string;
 
-    @Column()
+    @Column({ unique: true })
     phone: string;
 
     @Column()
     created: Date;
 
-    @Column()
+    @Column({ nullable: true })
     modified: Date;
 
-    @OneToOne(() => UsersEntity)
-    @JoinColumn({ name: 'user_id' })
+    @OneToOne(() => UsersEntity, (user) => user.client)
     user: UsersEntity;
 
     @OneToMany(() => LoansEntity, (loan) => loan.client)
