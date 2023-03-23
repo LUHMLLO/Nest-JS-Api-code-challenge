@@ -1,14 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
-import { ClientsEntity } from 'src/clients/clients.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { LoansEntity } from 'src/loans/loans.entity';
 
-@Entity('prestamos')
-export class LoansEntity {
+@Entity('pagos')
+export class PaymentsEntity {
     @PrimaryGeneratedColumn({ type: 'bigint' })
     id: number;
 
-    @ManyToOne(() => ClientsEntity, (client) => client.loans)
-    @JoinColumn({ name: 'client_id' })
-    client: ClientsEntity
+    @ManyToOne(() => LoansEntity, (loan) => loan.payments)
+    loan: LoansEntity
 
     @Column('decimal', { scale: 2 })
     requested_amount: number;
@@ -26,7 +25,7 @@ export class LoansEntity {
     total_interest: number
 
     @Column('decimal', { scale: 2 })
-    total_loan: number;
+    total_payment: number;
 
     @Column('decimal', { scale: 2 })
     monthly_interest: number;

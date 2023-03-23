@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { ClientsEntity } from 'src/clients/clients.entity';
-
+import { PaymentFrequencies } from 'src/utils.enums';
 @Entity('prestamos')
 export class LoansEntity {
     @PrimaryGeneratedColumn({ type: 'bigint' })
@@ -9,6 +9,10 @@ export class LoansEntity {
     @ManyToOne(() => ClientsEntity, (client) => client.loans)
     @JoinColumn({ name: 'client_id' })
     client: ClientsEntity
+
+    @ManyToOne(() => LoansEntity, (loan) => loan.payments)
+    @JoinColumn({ name: 'loan_id' })
+    payments: LoansEntity
 
     @Column('decimal', { scale: 2 })
     requested_amount: number;
@@ -19,8 +23,11 @@ export class LoansEntity {
     @Column()
     term_duration: number;
 
-    @Column()
-    term_frequency: string;
+    @Column({
+        type: 'enum',
+        enum: PaymentFrequencies,
+      })
+    term_frequency: PaymentFrequencies;
 
     @Column('decimal', { scale: 2 })
     total_interest: number

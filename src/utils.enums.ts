@@ -5,8 +5,8 @@ export enum AuthRoles {
 }
 
 export enum PaymentFrequencies {
-    'weekly',
-    'bi-weekly',
-    'semi-monthly',
-    'monthly',
+    weekly = 'weekly',
+    bi_weekly = 'bi-weekly',
+    semi_monthly = 'semi-monthly',
+    monthly = 'monthly',
 }
