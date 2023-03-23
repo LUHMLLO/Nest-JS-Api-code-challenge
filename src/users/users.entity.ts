@@ -6,6 +6,10 @@ export class UsersEntity {
     @PrimaryGeneratedColumn({ type: 'bigint' })
     id: number;
 
+    @OneToOne(() => ClientsEntity, (client) => client.user)
+    @JoinColumn({ name: 'client_id' })
+    client: ClientsEntity
+
     @Column()
     avatar: string;
 
@@ -26,8 +30,4 @@ export class UsersEntity {
 
     @Column({ nullable: true })
     accessed: Date;
-
-    @OneToOne(() => ClientsEntity, (client) => client.user)
-    @JoinColumn({ name: 'client_id' })
-    client: ClientsEntity
 }

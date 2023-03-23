@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, OneToMany } from 'typeorm';
 import { UsersEntity } from 'src/users/users.entity';
 import { LoansEntity } from 'src/loans/loans.entity';
 
@@ -6,6 +6,12 @@ import { LoansEntity } from 'src/loans/loans.entity';
 export class ClientsEntity {
     @PrimaryGeneratedColumn({ type: 'bigint' })
     id: number;
+
+    @OneToOne(() => UsersEntity, (user) => user.client)
+    user: UsersEntity;
+
+    @OneToMany(() => LoansEntity, (loan) => loan.client)
+    loans: LoansEntity[];
 
     @Column({ unique: true })
     identification: string;
@@ -27,10 +33,4 @@ export class ClientsEntity {
 
     @Column({ nullable: true })
     modified: Date;
-
-    @OneToOne(() => UsersEntity, (user) => user.client)
-    user: UsersEntity;
-
-    @OneToMany(() => LoansEntity, (loan) => loan.client)
-    loans: LoansEntity[];
 }

@@ -77,16 +77,16 @@ export class LoansService {
         return target
     }
 
-    async update(id: number, entity: LoansDTO): Promise<string> {
+    async update(id: number, dto: LoansDTO): Promise<string> {
         const target = await this.loansRepo.findOne({ where: { id: id } })
 
         if (!target) {
             return JSON.stringify('loan not found')
         }
 
-        entity.modified = new Date()
+        dto.modified = new Date()
 
-        await this.loansRepo.update(id, entity)
+        await this.loansRepo.update(id, dto)
 
         return 'loan updated'
     }

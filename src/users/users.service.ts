@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { UsersEntity } from './users.entity'
 import { ClientsEntity } from 'src/clients/clients.entity';
 import { AuthRoles } from 'src/utils.enums';
+import { CreateUsersDTO, UsersDTO } from './users.dto';
 
 @Injectable()
 export class UsersService {
@@ -19,7 +20,7 @@ export class UsersService {
         return this.usersRepo.find()
     }
 
-    async create(dto: any): Promise<UsersEntity | string> {
+    async create(dto: CreateUsersDTO): Promise<UsersEntity | string> {
         const targetClient = await this.clientsRepo.findOne({ where: { id: dto.clientID } })
         const isUsername = await this.usersRepo.findOne({ where: { username: dto.username } })
 
@@ -40,8 +41,6 @@ export class UsersService {
             user.password = dto.password
             user.role = dto.role
             user.created = new Date()
-            //user.modified = new Date(0)
-            //user.accessed = new Date(0)
 
             return this.usersRepo.save(user)
         } else {
@@ -59,18 +58,18 @@ export class UsersService {
         return target
     }
 
-    async update(id: number, entity: UsersEntity): Promise<UsersEntity | string> {
+    async update(id: number, dto: UsersDTO): Promise<UsersEntity | string> {
         const target = await this.usersRepo.findOne({ where: { id: id } })
 
         if (!target) {
             return JSON.stringify('user not found')
         }
 
-        entity.modified = new Date()
+        dto.modified = new Date()
 
-        await this.usersRepo.update(id, entity)
+        await this.usersRepo.update(id, dto)
 
-        return entity
+        return dto
     }
 
     async delete(id: number): Promise<string> {

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { ClientsDTO, CreateClientsDTO } from './clients.dto';
 import { ClientsEntity } from './clients.entity'
 
 @Injectable()
@@ -32,10 +33,10 @@ export class ClientsService {
         })
     }
 
-    async create(entity: ClientsEntity): Promise<ClientsEntity | string> {
-        const isIdentification = await this.clientsRepo.findOne({ where: { identification: entity.identification } })
-        const isEmail = await this.clientsRepo.findOne({ where: { email: entity.email } })
-        const isPhone = await this.clientsRepo.findOne({ where: { phone: entity.phone } })
+    async create(dto: CreateClientsDTO): Promise<ClientsEntity | string> {
+        const isIdentification = await this.clientsRepo.findOne({ where: { identification: dto.identification } })
+        const isEmail = await this.clientsRepo.findOne({ where: { email: dto.email } })
+        const isPhone = await this.clientsRepo.findOne({ where: { phone: dto.phone } })
 
         if (isIdentification) {
             return JSON.stringify('client already exists')
@@ -49,9 +50,16 @@ export class ClientsService {
             return JSON.stringify('phone already in use')
         }
 
-        entity.created = new Date()
+        const client = new ClientsEntity()
 
-        return this.clientsRepo.save(entity)
+        client.identification = dto.identification
+        client.first_name = dto.first_name
+        client.last_name = dto.last_name
+        client.email = dto.email
+        client.phone = dto.phone
+        client.created = new Date()
+
+        return this.clientsRepo.save(client)
     }
 
     async read(id: number): Promise<ClientsEntity | string> {
@@ -64,18 +72,18 @@ export class ClientsService {
         return target
     }
 
-    async update(id: number, entity: ClientsEntity): Promise<ClientsEntity | string> {
+    async update(id: number, dto: ClientsDTO): Promise<ClientsEntity | string> {
         const target = await this.clientsRepo.findOne({ where: { id: id } })
 
         if (!target) {
             return JSON.stringify('client not found')
         }
 
-        entity.modified = new Date()
+        dto.modified = new Date()
 
-        await this.clientsRepo.update(id, entity)
+        await this.clientsRepo.update(id, dto)
 
-        return entity
+        return dto
     }
 
     async delete(id: number): Promise<string> {

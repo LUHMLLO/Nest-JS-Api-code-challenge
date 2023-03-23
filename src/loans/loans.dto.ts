@@ -5,8 +5,7 @@ import { PaymentFrequencies } from 'src/utils.enums';
 
 export class LoansDTO {
     @ApiProperty({
-        type: Number,
-        default: 0
+        type: BigInt
     })
     id: number;
 
