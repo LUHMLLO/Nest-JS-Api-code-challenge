@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
 import { ClientsEntity } from 'src/clients/clients.entity';
+import { AuthRoles } from 'src/utils.enums';
 
 @Entity('usuarios')
 export class UsersEntity {
@@ -19,8 +20,11 @@ export class UsersEntity {
     @Column()
     password: string;
 
-    @Column()
-    role: string;
+    @Column({
+        type: 'enum',
+        enum: AuthRoles,
+      })
+    role: AuthRoles;
 
     @Column()
     created: Date;

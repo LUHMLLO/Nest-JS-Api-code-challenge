@@ -9,10 +9,10 @@ export class LoansDTO {
     })
     id: number;
 
-    @ApiProperty({ type: ClientsEntity, })
+    @ApiProperty({ type: ()=> ClientsEntity, })
     client: ClientsEntity;
 
-    @ApiProperty({ type: [LoansEntity], })
+    @ApiProperty({ type: ()=> [LoansEntity], })
     payments: [LoansEntity];
 
     @ApiProperty({ type: Number, })
@@ -24,7 +24,7 @@ export class LoansDTO {
     @ApiProperty({ type: Number, })
     term_duration: number;
 
-    @ApiProperty({ type: PaymentFrequencies, })
+    @ApiProperty({ enum: () => PaymentFrequencies, })
     term_frequency: PaymentFrequencies;
 
     @ApiProperty({ type: Number, })
@@ -67,6 +67,6 @@ export class CreateLoansDTO {
     @ApiProperty({ type: Number, })
     term_duration: number;
 
-    @ApiProperty({ type: PaymentFrequencies, })
+    @ApiProperty({ enum: () => PaymentFrequencies, })
     term_frequency: PaymentFrequencies;
 }

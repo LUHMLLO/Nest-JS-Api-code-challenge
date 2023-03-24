@@ -7,7 +7,7 @@ export class PaymentsDTO {
     })
     id: number;
 
-    @ApiProperty({ type: LoansEntity, })
+    @ApiProperty({ type: ()=> LoansEntity, })
     loan: LoansEntity;
 
     @ApiProperty({ type: Number, })

@@ -7,10 +7,10 @@ export class ClientsDTO {
     })
     id: number;
 
-    @ApiProperty({ type: UsersEntity, })
+    @ApiProperty({ type: ()=> UsersEntity, })
     user: UsersEntity;
 
-    @ApiProperty({ type: [LoansEntity], })
+    @ApiProperty({ type: ()=> [LoansEntity], })
     loans: [LoansEntity];
 
     @ApiProperty({ type: String, })

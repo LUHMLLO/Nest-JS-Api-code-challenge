@@ -8,7 +8,7 @@ export class UsersDTO {
     })
     id: number;
 
-    @ApiProperty({ type: ClientsEntity, })
+    @ApiProperty({ type: ()=> ClientsEntity, })
     client: ClientsEntity;
 
     @ApiProperty({ type: String, })
@@ -20,7 +20,7 @@ export class UsersDTO {
     @ApiProperty({ type: String, })
     password: string;
 
-    @ApiProperty({ type: AuthRoles, })
+    @ApiProperty({ enum: ()=> AuthRoles, })
     role: AuthRoles;
 
     @ApiProperty({ type: Date, })
@@ -46,6 +46,6 @@ export class CreateUsersDTO {
     @ApiProperty({ type: String, })
     password: string;
 
-    @ApiProperty({ type: AuthRoles, })
+    @ApiProperty({ enum: ()=> AuthRoles, })
     role: AuthRoles;
 }
