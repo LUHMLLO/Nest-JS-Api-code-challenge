@@ -14,22 +14,22 @@ export class UsersController {
     }
 
     @Post('create')
-    create(@Body() dto: CreateUsersDTO): Promise<UsersEntity | string> {
+    create(@Body() dto: CreateUsersDTO): Promise<UsersEntity | String> {
         return this.userService.create(dto)
     }
 
     @Get('read/:id')
-    read(@Param('id') id: number): Promise<UsersEntity | string> {
+    read(@Param('id') id: number): Promise<UsersEntity | String> {
         return this.userService.read(id);
     }
 
     @Patch('update/:id')
-    update(@Param('id') id: number, @Body() dto: UsersDTO): Promise<string> {
+    update(@Param('id') id: number, @Body() dto: UsersDTO): Promise<String> {
         return this.userService.update(id, dto)
     }
 
     @Delete('delete/:id')
-    delete(@Param('id') id: number): Promise<string> {
+    delete(@Param('id') id: number): Promise<String> {
         return this.userService.delete(id);
     }
 }

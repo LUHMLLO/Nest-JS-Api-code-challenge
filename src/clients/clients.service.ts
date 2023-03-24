@@ -33,7 +33,7 @@ export class ClientsService {
         })
     }
 
-    async create(dto: CreateClientsDTO): Promise<ClientsEntity | string> {
+    async create(dto: CreateClientsDTO): Promise<ClientsEntity | String> {
         const isIdentification = await this.clientsRepo.findOne({ where: { identification: dto.identification } })
         const isEmail = await this.clientsRepo.findOne({ where: { email: dto.email } })
         const isPhone = await this.clientsRepo.findOne({ where: { phone: dto.phone } })
@@ -62,7 +62,7 @@ export class ClientsService {
         return this.clientsRepo.save(client)
     }
 
-    async read(id: number): Promise<ClientsEntity | string> {
+    async read(id: number): Promise<ClientsEntity | String> {
         const target = await this.clientsRepo.findOne({ where: { id: id } })
 
         if (!target) {
@@ -72,7 +72,7 @@ export class ClientsService {
         return target
     }
 
-    async update(id: number, dto: ClientsDTO): Promise<string> {
+    async update(id: number, dto: ClientsDTO): Promise<String> {
         const target = await this.clientsRepo.findOne({ where: { id: id } })
 
         if (!target) {
@@ -86,7 +86,7 @@ export class ClientsService {
         return 'client updated'
     }
 
-    async delete(id: number): Promise<string> {
+    async delete(id: number): Promise<String> {
         const target = await this.clientsRepo.findOne({ where: { id: id } })
 
         if (!target) {

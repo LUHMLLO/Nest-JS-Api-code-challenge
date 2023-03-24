@@ -15,12 +15,12 @@ export class PaymentsController {
     }
 
     @Post(['create', 'cuota', 'abono'])
-    create(@Body() dto: CreatePaymentsDTO): Promise<PaymentsEntity | string> {
+    create(@Body() dto: CreatePaymentsDTO): Promise<PaymentsEntity | String> {
         return this.paymentService.create(dto)
     }
 
     @Get('read/:id')
-    read(@Param('id') id: number): Promise<PaymentsEntity | string> {
+    read(@Param('id') id: number): Promise<PaymentsEntity | String> {
         return this.paymentService.read(id);
     }
 
@@ -30,12 +30,12 @@ export class PaymentsController {
     }
 
     @Get('balanceclient/:id')
-    clientBalancePerLoan(@Param('id') id: number) {
+    clientBalancePerLoan(@Param('id') id: number): Promise<String[] | String> {
         return this.paymentService.readclientBalancePerLoan(id);
     }
 
     @Patch('update/:id')
-    update(@Param('id') id: number, @Body() dto: PaymentsDTO): Promise<string> {
+    update(@Param('id') id: number, @Body() dto: PaymentsDTO): Promise<String> {
         return this.paymentService.update(id, dto)
     }
 

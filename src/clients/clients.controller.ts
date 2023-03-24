@@ -30,22 +30,22 @@ export class ClientsController {
     }
 
     @Post('create')
-    create(@Body() dto: CreateClientsDTO): Promise<ClientsEntity | string> {
+    create(@Body() dto: CreateClientsDTO): Promise<ClientsEntity | String> {
         return this.clientService.create(dto)
     }
 
     @Get('read/:id')
-    read(@Param('id') id: number): Promise<ClientsEntity | string> {
+    read(@Param('id') id: number): Promise<ClientsEntity | String> {
         return this.clientService.read(id);
     }
 
     @Patch('update/:id')
-    update(@Param('id') id: number, @Body() dto: ClientsDTO): Promise<string> {
+    update(@Param('id') id: number, @Body() dto: ClientsDTO): Promise<String> {
         return this.clientService.update(id, dto)
     }
 
     @Delete('delete/:id')
-    delete(@Param('id') id: number): Promise<string> {
+    delete(@Param('id') id: number): Promise<String> {
         return this.clientService.delete(id);
     }
 }

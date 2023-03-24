@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PaymentsEntity } from './payments.entity'
 import { LoansEntity } from 'src/loans/loans.entity';
-import { PaymentFrequencies } from 'src/utils.enums';
 import { CreatePaymentsDTO, PaymentsDTO } from './payments.dto';
+import { ClientsEntity } from 'src/clients/clients.entity';
 
 @Injectable()
 export class PaymentsService {
@@ -14,13 +14,16 @@ export class PaymentsService {
 
         @InjectRepository(LoansEntity)
         private readonly loansRepo: Repository<LoansEntity>,
+
+        @InjectRepository(ClientsEntity)
+        private readonly clientsRepo: Repository<ClientsEntity>,
     ) { }
 
     async all(): Promise<PaymentsEntity[]> {
         return this.paymentsRepo.find()
     }
 
-    async create(dto: CreatePaymentsDTO): Promise<PaymentsEntity | string> {
+    async create(dto: CreatePaymentsDTO): Promise<PaymentsEntity | String> {
         const target = await this.loansRepo.findOne({ where: { id: dto.loanID } })
 
         if (!target) {
@@ -51,7 +54,7 @@ export class PaymentsService {
         return payment
     }
 
-    async read(id: number): Promise<PaymentsEntity | string> {
+    async read(id: number): Promise<PaymentsEntity | String> {
         const target = await this.paymentsRepo.findOneBy({ id })
 
         if (!target) {
@@ -61,7 +64,7 @@ export class PaymentsService {
         return target
     }
 
-    async readLoanBalance(id: number): Promise<string> {
+    async readLoanBalance(id: number): Promise<String> {
         const target = await this.loansRepo.findOneBy({ id: id })
 
         if (!target) {
@@ -71,13 +74,24 @@ export class PaymentsService {
         return JSON.stringify(`loan current balance: ${target.current_balance}`)
     }
 
-    async readclientBalancePerLoan(id: number): Promise<LoansEntity[] | null> {
-        return this.loansRepo.find({
-            relations: ['payments']
-        })
+    async readclientBalancePerLoan(id: number): Promise<String[] | String> {
+        const target = await this.clientsRepo.findOneBy({ id: id })
+
+        if (!target) {
+            return JSON.stringify('client not found')
+        }
+
+        const loans = await this.loansRepo.find()
+        const balances = Array<String>()
+
+        for (const loan of loans) {
+            balances.push(`loan ${loan.id} balance: ${loan.current_balance}`)
+        }
+
+        return balances
     }
 
-    async update(id: number, dto: PaymentsDTO): Promise<string> {
+    async update(id: number, dto: PaymentsDTO): Promise<String> {
         const target = await this.paymentsRepo.findOne({ where: { id: id } })
 
         if (!target) {
@@ -91,7 +105,7 @@ export class PaymentsService {
         return 'payment updated'
     }
 
-    async delete(id: number): Promise<string> {
+    async delete(id: number): Promise<String> {
         const target = await this.paymentsRepo.findOne({ where: { id: id } })
 
         if (!target) {

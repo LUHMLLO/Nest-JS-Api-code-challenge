@@ -26,7 +26,7 @@ export class LoansService {
         })
     }
 
-    async create(dto: CreateLoansDTO): Promise<LoansEntity | string> {
+    async create(dto: CreateLoansDTO): Promise<LoansEntity | String> {
         const target = await this.clientsRepo.findOne({ where: { id: dto.clientID } })
 
         if (!target) {
@@ -61,7 +61,7 @@ export class LoansService {
         return loan
     }
 
-    async approve(id: number): Promise<LoansEntity | string> {
+    async approve(id: number): Promise<LoansEntity | String> {
         const target = await this.loansRepo.findOne({ where: { id: id } })
 
         if (!target) {
@@ -76,7 +76,7 @@ export class LoansService {
         }
     }
 
-    async read(id: number): Promise<LoansEntity | string> {
+    async read(id: number): Promise<LoansEntity | String> {
         const target = await this.loansRepo.findOne({ where: { id: id } })
 
         if (!target) {
@@ -86,7 +86,7 @@ export class LoansService {
         return target
     }
 
-    async update(id: number, dto: LoansDTO): Promise<string> {
+    async update(id: number, dto: LoansDTO): Promise<String> {
         const target = await this.loansRepo.findOne({ where: { id: id } })
 
         if (!target) {
@@ -100,7 +100,7 @@ export class LoansService {
         return 'loan updated'
     }
 
-    async delete(id: number): Promise<string> {
+    async delete(id: number): Promise<String> {
         const target = await this.loansRepo.findOne({ where: { id: id } })
 
         if (!target) {

@@ -19,27 +19,27 @@ export class LoansController {
     }
 
     @Post(['create', 'request'])
-    create(@Body() dto: CreateLoansDTO): Promise<LoansEntity | string> {
+    create(@Body() dto: CreateLoansDTO): Promise<LoansEntity | String> {
         return this.loanService.create(dto)
     }
 
     @Get(['read/:id', 'amortization/:id'])
-    read(@Param('id') id: number): Promise<LoansEntity | string> {
+    read(@Param('id') id: number): Promise<LoansEntity | String> {
         return this.loanService.read(id);
     }
 
     @Patch('approve/:id')
-    readStatus(@Param('id') id: number): Promise<LoansEntity | string> {
+    readStatus(@Param('id') id: number): Promise<LoansEntity | String> {
         return this.loanService.approve(id);
     }
 
     @Patch('update/:id')
-    update(@Param('id') id: number, @Body() dto: LoansDTO): Promise<string> {
+    update(@Param('id') id: number, @Body() dto: LoansDTO): Promise<String> {
         return this.loanService.update(id, dto)
     }
 
     @Delete('delete/:id')
-    delete(@Param('id') id: number): Promise<string> {
+    delete(@Param('id') id: number): Promise<String> {
         return this.loanService.delete(id);
     }
 }

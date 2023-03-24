@@ -20,7 +20,7 @@ export class UsersService {
         return this.usersRepo.find()
     }
 
-    async create(dto: CreateUsersDTO): Promise<UsersEntity | string> {
+    async create(dto: CreateUsersDTO): Promise<UsersEntity | String> {
         const target = await this.clientsRepo.findOne({ where: { id: dto.clientID } })
         const isUsername = await this.usersRepo.findOne({ where: { username: dto.username } })
 
@@ -53,7 +53,7 @@ export class UsersService {
         }
     }
 
-    async read(id: number): Promise<UsersEntity | string> {
+    async read(id: number): Promise<UsersEntity | String> {
         const target = await this.usersRepo.findOne({ where: { id: id } })
 
         if (!target) {
@@ -63,7 +63,7 @@ export class UsersService {
         return target
     }
 
-    async update(id: number, dto: UsersDTO): Promise<string> {
+    async update(id: number, dto: UsersDTO): Promise<String> {
         const target = await this.usersRepo.findOne({ where: { id: id } })
 
         if (!target) {
@@ -77,7 +77,7 @@ export class UsersService {
         return 'user updated'
     }
 
-    async delete(id: number): Promise<string> {
+    async delete(id: number): Promise<String> {
         const target = await this.usersRepo.findOne({ where: { id: id } })
 
         if (!target) {
