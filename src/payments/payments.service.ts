@@ -27,7 +27,7 @@ export class PaymentsService {
             return JSON.stringify('loan not found')
         }
 
-        if(target.current_balance == 0){
+        if (target.current_balance == 0) {
             return JSON.stringify('loan already paid off')
         }
 
@@ -51,18 +51,33 @@ export class PaymentsService {
         return payment
     }
 
-    async read(id: number): Promise<PaymentsEntity | null> {
-        return this.paymentsRepo.findOneBy({ id })
+    async read(id: number): Promise<PaymentsEntity | string> {
+        const target = await this.paymentsRepo.findOneBy({ id })
+
+        if (!target) {
+            return JSON.stringify('loan not found')
+        }
+
+        return target
     }
 
-    async readLoanBalance(id: number): Promise<LoansEntity[] | null> {
+    async readLoanBalance(id: number): Promise<string> {
+        const target = await this.loansRepo.findOneBy({ id: id })
+
+        if (!target) {
+            return JSON.stringify('loan not found')
+        }
+
+        return JSON.stringify(`loan current balance: ${target.current_balance}`)
+    }
+
+    async readclientBalancePerLoan(id: number): Promise<LoansEntity[] | null> {
         return this.loansRepo.find({
             relations: ['payments']
         })
-        //return this.loansRepo.query(`select * from prestamos where (id = ${id} AND approval = true)`)
     }
 
-    async update(id: number, dto: PaymentsDTO): Promise<PaymentsEntity | string> {
+    async update(id: number, dto: PaymentsDTO): Promise<string> {
         const target = await this.paymentsRepo.findOne({ where: { id: id } })
 
         if (!target) {
@@ -73,10 +88,18 @@ export class PaymentsService {
 
         await this.paymentsRepo.update(id, dto)
 
-        return dto
+        return 'payment updated'
     }
 
-    async delete(id: number): Promise<void> {
+    async delete(id: number): Promise<string> {
+        const target = await this.paymentsRepo.findOne({ where: { id: id } })
+
+        if (!target) {
+            return JSON.stringify('loan not found')
+        }
+
         await this.paymentsRepo.delete(id);
+
+        return JSON.stringify(`loan '#${target.id}' deleted`)
     }
 }

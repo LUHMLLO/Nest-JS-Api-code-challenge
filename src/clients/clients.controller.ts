@@ -40,7 +40,7 @@ export class ClientsController {
     }
 
     @Patch('update/:id')
-    update(@Param('id') id: number, @Body() dto: ClientsDTO): Promise<ClientsEntity | string> {
+    update(@Param('id') id: number, @Body() dto: ClientsDTO): Promise<string> {
         return this.clientService.update(id, dto)
     }
 

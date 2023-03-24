@@ -49,9 +49,6 @@ export class LoansService {
         loan.monthly_fee = Math.round(loan.monthly_interest + loan.monthly_payment)
 
         loan.approval = false
-
-        loan.payments_fullfilled = 0
-        loan.payments_pending = loan.term_duration
         loan.current_balance = loan.total_loan
 
         loan.created = new Date()

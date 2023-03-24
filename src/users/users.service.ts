@@ -63,7 +63,7 @@ export class UsersService {
         return target
     }
 
-    async update(id: number, dto: UsersDTO): Promise<UsersEntity | string> {
+    async update(id: number, dto: UsersDTO): Promise<string> {
         const target = await this.usersRepo.findOne({ where: { id: id } })
 
         if (!target) {
@@ -74,7 +74,7 @@ export class UsersService {
 
         await this.usersRepo.update(id, dto)
 
-        return dto
+        return 'user updated'
     }
 
     async delete(id: number): Promise<string> {

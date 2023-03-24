@@ -24,7 +24,7 @@ export class UsersController {
     }
 
     @Patch('update/:id')
-    update(@Param('id') id: number, @Body() dto: UsersDTO): Promise<UsersEntity | string> {
+    update(@Param('id') id: number, @Body() dto: UsersDTO): Promise<string> {
         return this.userService.update(id, dto)
     }
 

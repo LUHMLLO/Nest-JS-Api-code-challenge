@@ -20,22 +20,27 @@ export class PaymentsController {
     }
 
     @Get('read/:id')
-    read(@Param('id') id: number) {
+    read(@Param('id') id: number): Promise<PaymentsEntity | string> {
         return this.paymentService.read(id);
     }
 
     @Get('balance/:id')
-    balance(@Param('id') id: number) {
+    loanBalance(@Param('id') id: number): Promise<String> {
         return this.paymentService.readLoanBalance(id);
     }
 
+    @Get('balanceclient/:id')
+    clientBalancePerLoan(@Param('id') id: number) {
+        return this.paymentService.readclientBalancePerLoan(id);
+    }
+
     @Patch('update/:id')
-    update(@Param('id') id: number, @Body() dto: PaymentsDTO): Promise<PaymentsEntity | string> {
+    update(@Param('id') id: number, @Body() dto: PaymentsDTO): Promise<string> {
         return this.paymentService.update(id, dto)
     }
 
     @Delete('delete/:id')
-    delete(@Param('id') id: number): Promise<void> {
+    delete(@Param('id') id: number): Promise<String> {
         return this.paymentService.delete(id);
     }
 }

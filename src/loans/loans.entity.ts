@@ -47,12 +47,6 @@ export class LoansEntity {
   @Column()
   approval: boolean;
 
-  @Column()
-  payments_pending: number;
-
-  @Column()
-  payments_fullfilled: number;
-
   @Column('decimal', { scale: 2 })
   current_balance: number;
 

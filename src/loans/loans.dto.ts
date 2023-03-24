@@ -46,12 +46,6 @@ export class LoansDTO {
     approval: boolean;
 
     @ApiProperty({ type: Number, })
-    payments_pending: number;
-
-    @ApiProperty({ type: Number, })
-    payments_fullfilled: number;
-
-    @ApiProperty({ type: Number, })
     current_balance: number;
 
     @ApiProperty({ type: Date, })

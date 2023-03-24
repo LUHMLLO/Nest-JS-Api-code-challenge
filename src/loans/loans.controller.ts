@@ -34,7 +34,7 @@ export class LoansController {
     }
 
     @Patch('update/:id')
-    update(@Param('id') id: number, @Body() dto: LoansDTO): Promise<LoansEntity | string> {
+    update(@Param('id') id: number, @Body() dto: LoansDTO): Promise<string> {
         return this.loanService.update(id, dto)
     }
 
