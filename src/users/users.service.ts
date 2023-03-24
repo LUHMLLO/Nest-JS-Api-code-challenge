@@ -21,10 +21,10 @@ export class UsersService {
     }
 
     async create(dto: CreateUsersDTO): Promise<UsersEntity | string> {
-        const targetClient = await this.clientsRepo.findOne({ where: { id: dto.clientID } })
+        const target = await this.clientsRepo.findOne({ where: { id: dto.clientID } })
         const isUsername = await this.usersRepo.findOne({ where: { username: dto.username } })
 
-        if (!targetClient) {
+        if (!target) {
             return JSON.stringify('client not found')
         }
 
@@ -35,14 +35,19 @@ export class UsersService {
         if (dto.role in AuthRoles) {
             const user = new UsersEntity()
 
-            user.client = targetClient
+            user.client = target
             user.avatar = dto.avatar
             user.username = dto.username
             user.password = dto.password
             user.role = dto.role
             user.created = new Date()
 
-            return this.usersRepo.save(user)
+            this.usersRepo.save(user)
+
+            target.modified = new Date()
+            this.clientsRepo.update(target.id, target)
+
+            return user
         } else {
             return JSON.stringify('invalid auth role')
         }

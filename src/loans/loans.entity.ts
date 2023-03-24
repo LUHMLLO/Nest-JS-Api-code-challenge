@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 import { ClientsEntity } from 'src/clients/clients.entity';
 import { PaymentFrequencies } from 'src/utils.enums';
+import { PaymentsEntity } from 'src/payments/payments.entity';
 @Entity('prestamos')
 export class LoansEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })
@@ -10,9 +11,8 @@ export class LoansEntity {
   @JoinColumn({ name: 'client_id' })
   client: ClientsEntity
 
-  @ManyToOne(() => LoansEntity, (loan) => loan.payments)
-  @JoinColumn({ name: 'loan_id' })
-  payments: LoansEntity
+  @OneToMany(() => PaymentsEntity, (payment) => payment.loan)
+  payments: PaymentsEntity[]
 
   @Column('decimal', { scale: 2 })
   requested_amount: number;
@@ -41,17 +41,20 @@ export class LoansEntity {
   @Column('decimal', { scale: 2 })
   monthly_payment: number;
 
-  @Column()
-  approval_status: boolean;
-
   @Column('decimal', { scale: 2 })
-  current_balance: number;
+  monthly_fee: number;
+
+  @Column()
+  approval: boolean;
 
   @Column()
   payments_pending: number;
 
   @Column()
   payments_fullfilled: number;
+
+  @Column('decimal', { scale: 2 })
+  current_balance: number;
 
   @Column()
   created: Date;

@@ -11,22 +11,22 @@ export class ClientsController {
 
     @Get('list')
     all(): Promise<ClientsEntity[]> {
-        return this.clientService.all();
-    }
-
-    @Get('list-clients')
-    allClientsOnly(): Promise<ClientsEntity[]> {
         return this.clientService.allClientsOnly();
     }
 
-    @Get('list-users')
+    @Get('list/users')
     allClientsUsers(): Promise<ClientsEntity[]> {
         return this.clientService.allClientsUsers();
     }
 
-    @Get('list-loans')
+    @Get('list/loans')
     allClientsLoans(): Promise<ClientsEntity[]> {
         return this.clientService.allClientsLoans();
+    }
+
+    @Get('list/details')
+    allClientsOnly(): Promise<ClientsEntity[]> {
+        return this.clientService.allClientsDetails();
     }
 
     @Post('create')

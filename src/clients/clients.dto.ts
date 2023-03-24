@@ -7,6 +7,12 @@ export class ClientsDTO {
     })
     id: number;
 
+    @ApiProperty({ type: UsersEntity, })
+    user: UsersEntity;
+
+    @ApiProperty({ type: [LoansEntity], })
+    loans: [LoansEntity];
+
     @ApiProperty({ type: String, })
     identification: string;
 
@@ -27,12 +33,6 @@ export class ClientsDTO {
 
     @ApiProperty({ type: Date, })
     modified: Date;
-
-    @ApiProperty({ type: UsersEntity, })
-    user: UsersEntity;
-
-    @ApiProperty({ type: [LoansEntity], })
-    loans: [LoansEntity];
 }
 export class CreateClientsDTO {
     @ApiProperty({ type: String, })

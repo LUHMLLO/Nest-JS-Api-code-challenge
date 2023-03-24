@@ -12,8 +12,8 @@ export class LoansDTO {
     @ApiProperty({ type: ClientsEntity, })
     client: ClientsEntity;
 
-    @ApiProperty({ type: LoansEntity, })
-    payments: LoansEntity;
+    @ApiProperty({ type: [LoansEntity], })
+    payments: [LoansEntity];
 
     @ApiProperty({ type: Number, })
     requested_amount: number;
@@ -39,17 +39,20 @@ export class LoansDTO {
     @ApiProperty({ type: Number, })
     monthly_payment: number;
 
-    @ApiProperty({ type: Boolean, })
-    approval_status: boolean;
-
     @ApiProperty({ type: Number, })
-    current_balance: number;
+    monthly_fee: number;
+
+    @ApiProperty({ type: Boolean, })
+    approval: boolean;
 
     @ApiProperty({ type: Number, })
     payments_pending: number;
 
     @ApiProperty({ type: Number, })
     payments_fullfilled: number;
+
+    @ApiProperty({ type: Number, })
+    current_balance: number;
 
     @ApiProperty({ type: Date, })
     created: Date;

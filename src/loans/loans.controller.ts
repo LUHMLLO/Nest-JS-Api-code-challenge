@@ -13,13 +13,17 @@ export class LoansController {
     all(): Promise<LoansEntity[]> {
         return this.loanService.all();
     }
+    @Get('list/payments')
+    allLoansPayments(): Promise<LoansEntity[]> {
+        return this.loanService.allLoansPayments();
+    }
 
-    @Post('create')
+    @Post(['create', 'request'])
     create(@Body() dto: CreateLoansDTO): Promise<LoansEntity | string> {
         return this.loanService.create(dto)
     }
 
-    @Get('read/:id')
+    @Get(['read/:id', 'amortization/:id'])
     read(@Param('id') id: number): Promise<LoansEntity | string> {
         return this.loanService.read(id);
     }

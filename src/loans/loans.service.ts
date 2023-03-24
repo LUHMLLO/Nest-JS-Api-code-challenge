@@ -20,6 +20,12 @@ export class LoansService {
         return this.loansRepo.find()
     }
 
+    async allLoansPayments(): Promise<LoansEntity[]> {
+        return this.loansRepo.find({
+            relations: ['payments']
+        })
+    }
+
     async create(dto: CreateLoansDTO): Promise<LoansEntity | string> {
         const target = await this.clientsRepo.findOne({ where: { id: dto.clientID } })
 
@@ -40,16 +46,22 @@ export class LoansService {
         loan.total_loan = Math.round((dto.requested_amount + loan.total_interest) * 100) / 100
         loan.monthly_interest = Math.round((loan.total_interest / dto.term_duration) * 100) / 100
         loan.monthly_payment = Math.round((dto.requested_amount / dto.term_duration) * 100) / 100
+        loan.monthly_fee = Math.round(loan.monthly_interest + loan.monthly_payment)
 
-        loan.approval_status = false
+        loan.approval = false
 
         loan.payments_fullfilled = 0
         loan.payments_pending = loan.term_duration
-        loan.current_balance = loan.requested_amount
+        loan.current_balance = loan.total_loan
 
         loan.created = new Date()
 
-        return this.loansRepo.save(loan)
+        this.loansRepo.save(loan)
+
+        target.modified = new Date()
+        this.clientsRepo.update(target.id, target)
+
+        return loan
     }
 
     async approve(id: number): Promise<LoansEntity | string> {
@@ -58,7 +70,7 @@ export class LoansService {
         if (!target) {
             return JSON.stringify('loan not found')
         } else {
-            target.approval_status = true
+            target.approval = true
             target.modified = new Date()
 
             await this.loansRepo.update(id, target)

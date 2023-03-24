@@ -11,12 +11,6 @@ export class ClientsService {
         private readonly clientsRepo: Repository<ClientsEntity>,
     ) { }
 
-    async all(): Promise<ClientsEntity[]> {
-        return this.clientsRepo.find({
-            relations: ['user', 'loans']
-        })
-    }
-
     async allClientsOnly(): Promise<ClientsEntity[]> {
         return this.clientsRepo.find()
     }
@@ -30,6 +24,12 @@ export class ClientsService {
     async allClientsLoans(): Promise<ClientsEntity[]> {
         return this.clientsRepo.find({
             relations: ['loans']
+        })
+    }
+
+    async allClientsDetails(): Promise<ClientsEntity[]> {
+        return this.clientsRepo.find({
+            relations: ['user', 'loans']
         })
     }
 
