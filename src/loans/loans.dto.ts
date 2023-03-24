@@ -4,15 +4,13 @@ import { LoansEntity } from './loans.entity';
 import { PaymentFrequencies } from 'src/utils.enums';
 
 export class LoansDTO {
-    @ApiProperty({
-        type: BigInt
-    })
+    @ApiProperty({ type: BigInt })
     id: number;
 
-    @ApiProperty({ type: ()=> ClientsEntity, })
+    @ApiProperty({ type: () => ClientsEntity, })
     client: ClientsEntity;
 
-    @ApiProperty({ type: ()=> [LoansEntity], })
+    @ApiProperty({ type: () => [LoansEntity], })
     payments: [LoansEntity];
 
     @ApiProperty({ type: Number, })

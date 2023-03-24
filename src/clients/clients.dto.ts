@@ -2,15 +2,13 @@ import { ApiProperty } from '@nestjs/swagger';
 import { LoansEntity } from 'src/loans/loans.entity';
 import { UsersEntity } from 'src/users/users.entity';
 export class ClientsDTO {
-    @ApiProperty({
-        type: BigInt
-    })
+    @ApiProperty({ type: BigInt })
     id: number;
 
-    @ApiProperty({ type: ()=> UsersEntity, })
+    @ApiProperty({ type: () => UsersEntity, })
     user: UsersEntity;
 
-    @ApiProperty({ type: ()=> [LoansEntity], })
+    @ApiProperty({ type: () => [LoansEntity], })
     loans: [LoansEntity];
 
     @ApiProperty({ type: String, })

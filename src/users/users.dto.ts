@@ -3,12 +3,10 @@ import { ClientsEntity } from "src/clients/clients.entity";
 import { AuthRoles } from "src/utils.enums";
 
 export class UsersDTO {
-    @ApiProperty({
-        type: BigInt
-    })
+    @ApiProperty({ type: BigInt })
     id: number;
 
-    @ApiProperty({ type: ()=> ClientsEntity, })
+    @ApiProperty({ type: () => ClientsEntity, })
     client: ClientsEntity;
 
     @ApiProperty({ type: String, })
@@ -20,7 +18,7 @@ export class UsersDTO {
     @ApiProperty({ type: String, })
     password: string;
 
-    @ApiProperty({ enum: ()=> AuthRoles, })
+    @ApiProperty({ enum: () => AuthRoles, })
     role: AuthRoles;
 
     @ApiProperty({ type: Date, })
@@ -46,6 +44,6 @@ export class CreateUsersDTO {
     @ApiProperty({ type: String, })
     password: string;
 
-    @ApiProperty({ enum: ()=> AuthRoles, })
+    @ApiProperty({ enum: () => AuthRoles, })
     role: AuthRoles;
 }

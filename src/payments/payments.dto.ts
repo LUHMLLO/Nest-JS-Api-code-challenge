@@ -2,12 +2,10 @@ import { ApiProperty } from "@nestjs/swagger";
 import { LoansEntity } from "src/loans/loans.entity";
 
 export class PaymentsDTO {
-    @ApiProperty({
-        type: BigInt
-    })
+    @ApiProperty({ type: BigInt })
     id: number;
 
-    @ApiProperty({ type: ()=> LoansEntity, })
+    @ApiProperty({ type: () => LoansEntity, })
     loan: LoansEntity;
 
     @ApiProperty({ type: Number, })
