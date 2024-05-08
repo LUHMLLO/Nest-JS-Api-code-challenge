@@ -1,4 +1,5 @@
-import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+/* eslint-disable prettier/prettier */
+import { TypeOrmModuleOptions } from '@nestjs/typeorm'
 
 export const OrmConfig: TypeOrmModuleOptions = {
     type: 'postgres',
@@ -7,10 +8,10 @@ export const OrmConfig: TypeOrmModuleOptions = {
     username: 'bankadmin',
     password: 'tS6k@8C2',
     database: 'realbank',
-    entities: ['dist/**/*.entity{.ts,.js}'],
+    entities: [ 'dist/**/*.entity{.ts,.js}' ],
     synchronize: true,
     logging: false,
     retryDelay: 3000,
     retryAttempts: 10,
-    autoLoadEntities: true
+    autoLoadEntities: true,
 }

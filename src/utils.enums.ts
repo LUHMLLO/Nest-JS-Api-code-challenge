@@ -1,7 +1,8 @@
+/* eslint-disable prettier/prettier */
 export enum AuthRoles {
     admin = 'admin',
     user = 'user',
-    guest = 'guest'
+    guest = 'guest',
 }
 
 export enum PaymentFrequencies {

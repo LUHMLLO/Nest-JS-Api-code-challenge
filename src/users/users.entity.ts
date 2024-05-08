@@ -1,44 +1,51 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
-import { ClientsEntity } from 'src/clients/clients.entity';
-import { AuthRoles } from 'src/utils.enums';
-import { ApiProperty } from '@nestjs/swagger';
+/* eslint-disable prettier/prettier */
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm'
+import { ClientsEntity } from 'src/clients/clients.entity'
+import { AuthRoles } from 'src/utils.enums'
+import { ApiProperty } from '@nestjs/swagger'
 
-@Entity('usuarios')
+@Entity( 'usuarios' )
 export class UsersEntity {
-  @ApiProperty({ type: BigInt })
-  @PrimaryGeneratedColumn({ type: 'bigint' })
-  id: number;
+  @ApiProperty( { type: BigInt } )
+  @PrimaryGeneratedColumn( { type: 'bigint' } )
+  id: number
 
-  @ApiProperty({ type: () => ClientsEntity, })
-  @OneToOne(() => ClientsEntity, (client) => client.user)
-  @JoinColumn({ name: 'client_id' })
+  @ApiProperty( { type: () => ClientsEntity } )
+  @OneToOne( () => ClientsEntity, ( client ) => client.user )
+  @JoinColumn( { name: 'client_id' } )
   client: ClientsEntity
 
-  @ApiProperty({ type: String, })
+  @ApiProperty( { type: String } )
   @Column()
-  avatar: string;
+  avatar: string
 
-  @ApiProperty({ type: String, })
-  @Column({ unique: true })
-  username: string;
+  @ApiProperty( { type: String } )
+  @Column( { unique: true } )
+  username: string
 
-  @ApiProperty({ type: String, })
+  @ApiProperty( { type: String } )
   @Column()
-  password: string;
+  password: string
 
-  @ApiProperty({ enum: () => AuthRoles, })
-  @Column({ type: 'enum', enum: AuthRoles, })
-  role: AuthRoles;
+  @ApiProperty( { enum: () => AuthRoles } )
+  @Column( { type: 'enum', enum: AuthRoles } )
+  role: AuthRoles
 
-  @ApiProperty({ type: Date, })
+  @ApiProperty( { type: Date } )
   @Column()
-  created: Date;
+  created: Date
 
-  @ApiProperty({ type: Date, })
-  @Column({ nullable: true })
-  modified: Date;
+  @ApiProperty( { type: Date } )
+  @Column( { nullable: true } )
+  modified: Date
 
-  @ApiProperty({ type: Date, })
-  @Column({ nullable: true })
-  accessed: Date;
+  @ApiProperty( { type: Date } )
+  @Column( { nullable: true } )
+  accessed: Date
 }
